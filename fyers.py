@@ -55,7 +55,7 @@ def get_token():
 
 
 access_token = get_token()
-fyers = fyersModel.FyersModel(client_id=app_id, token=access_token, log_path="/Users/kenil/Desktop/apiV2")
+fyers = fyersModel.FyersModel(client_id=app_id, token=access_token)
 
 positions = fyers.positions()
 positions_data = positions['netPositions']
