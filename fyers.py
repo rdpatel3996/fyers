@@ -1,5 +1,4 @@
 import urllib.parse as urlparse
-import pandas as pd
 import os
 from time import sleep
 from selenium import webdriver
@@ -81,5 +80,4 @@ final_data = {'symbol': symbol,
               'realized_profit': realized_profit,
               }
 
-df = pd.DataFrame(final_data)
-print(df)
+print(final_data)
