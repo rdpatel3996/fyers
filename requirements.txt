@@ -1,3 +1,2 @@
 fyers-api
-urllib3
 selenium
