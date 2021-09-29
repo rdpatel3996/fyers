@@ -1,2 +1,6 @@
 fyers-api
 selenium
+json
+requests
+tornado
+
