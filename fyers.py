@@ -15,7 +15,6 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
 
 
-
 app_id = "XP24BBRDLI-100"
 app_secret = "IDQR179FY1"
 redirect_url = 'https://trade.fyers.in/api-login/redirect-uri/index.html'
@@ -35,7 +34,7 @@ def get_token():
     options = Options()
     # options.add_argument('headless')
     options.add_argument('--disable-gpu')
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     driver.get(url)
     WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, '//div[@class="container login-main-start"]')))
