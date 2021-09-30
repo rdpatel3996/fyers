@@ -14,7 +14,8 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
 
-
+api_telegram = "2004963816:AAGbpzYvHS5TQCzrjovKsEo4YGklmng4P54"
+bot = telebot.TeleBot(api_telegram)
 app_id = "XP24BBRDLI-100"
 app_secret = "IDQR179FY1"
 redirect_url = 'https://trade.fyers.in/api-login/redirect-uri/index.html'
