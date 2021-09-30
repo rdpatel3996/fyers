@@ -53,30 +53,21 @@ def get_token():
 
 
 access_token = get_token()
-fyers = fyersModel.FyersModel(client_id=app_id, token=access_token)
+fyers = fyersModel.FyersModel(client_id=app_id, token=access_token, log_path="/Users/kenil/Desktop/apiV2")
 
 positions = fyers.positions()
-positions_data = positions['netPositions']
-length = len(positions_data)
-x = 1
-symbol = []
-netQty = []
-avgPrice = []
-realized_profit = []
+positions_data = positions['overall']['pl_total']
+print(positions_data)
 
-while 0 <= x <= length - 1:
-    data = positions_data[x]
-    if data['netQty'] != 0:
-        # final_data = data['id'], data['netQty'], data['avgPrice'], data['realized_profit']
-        symbol.append(data['id'])
-        netQty.append(data['netQty'])
-        avgPrice.append(data['avgPrice'])
-        realized_profit.append(data['realized_profit'])
-    x = x + 1
-final_data = {'symbol': symbol,
-              'netQty': netQty,
-              'avgPrice': avgPrice,
-              'realized_profit': realized_profit,
-              }
+while True:
+    @bot.message_handler(commands='p_pnl')
+    def get_pnl(msg):
+        positions = fyers.positions()
+        positions_data = positions['overall']['pl_total']
+        print(positions_data)
+        positions_data = str(positions_data)
+        bot.reply_to(msg, 'fyers papa pnl:' + positions_data)
 
-print(final_data)
+
+    bot.polling()
+    time.sleep(20)
