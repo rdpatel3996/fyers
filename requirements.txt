@@ -1,4 +1,4 @@
-fyers-api==2.0.4
+fyers-apiv2==2.0.4
 selenium
 requests
 tornado
