@@ -1,3 +1,4 @@
+pyTelegramBotApi
 fyers-apiv2==2.0.4
 selenium
 requests
