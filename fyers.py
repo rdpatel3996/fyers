@@ -69,18 +69,24 @@ while True:
         print(positions_data)
         positions_data = str(positions_data)
         bot.reply_to(msg, 'fyers papa pnl:' + positions_data)
+        
     def stock_request(stocks):
         request = stocks
         return request
+
     @bot.message_handler(func=stock_request)
     def get_pnl(stocks):
         request = stocks.text
-        request = request.replace("/","")
+        request = request.replace("/", "")
         print(request)
-        data = {"symbols": "NSE:"+request+"-EQ"}
+        data = {"symbols": "NSE:" + request + "-EQ"}
         quote = fyers.quotes(data)
-        x = quote['d'][0]['v']['lp']
-        bot.reply_to(msg, x)
+        x = int
+        try:
+            x = quote['d'][0]['v']['lp']
+            bot.reply_to(stocks, x)
+        except:
+            bot.reply_to(stocks, "please enter valid symbol")
 
 
     bot.polling()
