@@ -57,37 +57,71 @@ def get_token():
 access_token = get_token()
 fyers = fyersModel.FyersModel(client_id=app_id, token=access_token, log_path="/Users/kenil/Desktop/apiV2")
 
-positions = fyers.positions()
-positions_data = positions['overall']['pl_total']
-print(positions_data)
+
 
 while True:
-    @bot.message_handler(commands='p_pnl')
+    
+    # for pnl
+    
+    @bot.message_handler(commands='pnl')
     def get_pnl(msg):
         positions = fyers.positions()
         positions_data = positions['overall']['pl_total']
         print(positions_data)
         positions_data = str(positions_data)
-        bot.reply_to(msg, 'fyers papa pnl:' + positions_data)
-        
-    def stock_request(stocks):
+        bot.reply_to(msg, positions_data)
+
+
+
+     #for order placement and quote
+    
+    @bot.message_handler(commands='bos')
+    def get_pnl(stocks):
+
+        #data = {"symbols": "NSE:" + request + "-EQ"}
+        #quote = fyers.quotes(data)
+        bot.reply_to(stocks, "Please write in format\nE.g.\nSymbol\nQty(+ for buy,- for sell)\nPrice\nOrder type(AMO:TRUE,Regular:FALSE)")
+
+    def input(stocks):
         request = stocks
         return request
 
-    @bot.message_handler(func=stock_request)
-    def get_pnl(stocks):
+    @bot.message_handler(func=input)
+    def input(stocks):
         request = stocks.text
         request = request.replace("/", "")
-        print(request)
-        data = {"symbols": "NSE:" + request + "-EQ"}
-        quote = fyers.quotes(data)
-        x = int
         try:
-            x = quote['d'][0]['v']['lp']
-            bot.reply_to(stocks, x)
-        except:
-            bot.reply_to(stocks, "please enter valid symbol")
+            name = request
+            list = name.splitlines()
+            print(list)
+            symbol = list[0]
+            user_qty = list[1]
+            qty = abs(int(list[1]))
+            if int(user_qty)<0:
+                side = -1
+            else:
+                side = 1
+            side = side
+            limitprice = float(list[2])
+            offlineorder = list[3]
 
+
+            data = dict(symbol="NSE:"+symbol+"-EQ", qty=qty, type=1, side=side, productType="CNC", limitPrice=limitprice,
+                    stopPrice=0, validity="DAY", disclosedQty=0, offlineOrder=offlineorder, stopLoss=0, takeProfit=0)
+            print(data)
+
+            fyers.place_order(data)
+
+        except:
+
+            data1 = {"symbols": "NSE:" + request + "-EQ"}
+            quote = fyers.quotes(data1)
+            x = int
+            try:
+                x = quote['d'][0]['v']['lp']
+                bot.reply_to(stocks, x)
+            except:
+                bot.reply_to(stocks, "please enter valid symbol")
 
     bot.polling()
     time.sleep(20)
