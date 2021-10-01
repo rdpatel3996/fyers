@@ -67,7 +67,6 @@ while True:
     def get_pnl(msg):
         positions = fyers.positions()
         positions_data = positions['overall']['pl_total']
-        print(positions_data)
         positions_data = str(positions_data)
         bot.reply_to(msg, positions_data)
 
@@ -80,7 +79,7 @@ while True:
 
         #data = {"symbols": "NSE:" + request + "-EQ"}
         #quote = fyers.quotes(data)
-        bot.reply_to(stocks, "Please write in format\nE.g.\nSymbol\nQty(+ for buy,- for sell)\nPrice\nOrder type(AMO:TRUE,Regular:FALSE)")
+        bot.reply_to(stocks, "Please write in format\nE.g.\nSymbol(Caps lock)\nQty(+ for buy,- for sell)\nPrice\nOrder type(AMO:TRUE,Regular:FALSE)")
 
     def input(stocks):
         request = stocks
@@ -108,7 +107,6 @@ while True:
 
             data = dict(symbol="NSE:"+symbol+"-EQ", qty=qty, type=1, side=side, productType="CNC", limitPrice=limitprice,
                     stopPrice=0, validity="DAY", disclosedQty=0, offlineOrder=offlineorder, stopLoss=0, takeProfit=0)
-            print(data)
 
             fyers.place_order(data)
 
