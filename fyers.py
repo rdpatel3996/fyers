@@ -62,18 +62,17 @@ fyers = fyersModel.FyersModel(client_id=app_id, token=access_token)
 while True:
     
     # for pnl
-    
     @bot.message_handler(commands='pnl')
     def get_pnl(msg):
         positions = fyers.positions()
         positions_data = positions['overall']['pl_total']
+        print(positions_data)
         positions_data = str(positions_data)
         bot.reply_to(msg, positions_data)
 
 
 
      #for order placement and quote
-    
     @bot.message_handler(commands='bos')
     def get_pnl(stocks):
 
@@ -107,6 +106,7 @@ while True:
 
             data = dict(symbol="NSE:"+symbol+"-EQ", qty=qty, type=1, side=side, productType="CNC", limitPrice=limitprice,
                     stopPrice=0, validity="DAY", disclosedQty=0, offlineOrder=offlineorder, stopLoss=0, takeProfit=0)
+            print(data)
 
             fyers.place_order(data)
 
@@ -114,12 +114,28 @@ while True:
 
             data1 = {"symbols": "NSE:" + request + "-EQ"}
             quote = fyers.quotes(data1)
-            x = int
+            cmp = float
+            ch = float
             try:
-                x = quote['d'][0]['v']['lp']
-                bot.reply_to(stocks, x)
+                cmp = quote['d'][0]['v']['lp']
+                ch = quote['d'][0]['v']['ch']
+                chp = quote['d'][0]['v']['chp']
+                bid = quote['d'][0]['v']['bid']
+                ask = quote['d'][0]['v']['ask']
+                open = quote['d'][0]['v']['open_price']
+                previos_close = quote['d'][0]['v']['prev_close_price']
+                low = quote['d'][0]['v']['low_price']
+                high = quote['d'][0]['v']['low_price']
+                volume = quote['d'][0]['v']['volume']
+
+
+                bot.reply_to(stocks, "Cmp : "+str('{:n}'.format(cmp))+"   "+"("+str('{:n}'.format(ch))+")"+"   "+"("+str('{:n}'.format(chp))+"%)""\nBid : "+str('{:n}'.format(bid))+"   Ask : "+str('{:n}'.format(ask))+"\nHigh : "+str('{:n}'.format(high))+"   Low : "+str('{:n}'.format(low))+"\nOpen : "+str('{:n}'.format(open))+"   Previos Close : "+str('{:n}'.format(previos_close))+"\nVolume : "+str('{:n}'.format(volume)))
             except:
                 bot.reply_to(stocks, "please enter valid symbol")
 
-    bot.polling()
+
+
+
+
+    bot.infinity_polling()
     time.sleep(20)
