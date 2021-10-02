@@ -125,7 +125,7 @@ while True:
                 open = quote['d'][0]['v']['open_price']
                 previos_close = quote['d'][0]['v']['prev_close_price']
                 low = quote['d'][0]['v']['low_price']
-                high = quote['d'][0]['v']['low_price']
+                high = quote['d'][0]['v']['high_price']
                 volume = quote['d'][0]['v']['volume']
 
 
