@@ -137,12 +137,14 @@ while True:
                     print(url1)
                     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
                     driver.get("https://www.web2pdfconvert.com/to/img")
-                    WebDriverWait(driver, 10).until(
-                        ec.visibility_of_element_located((By.XPATH, '//input[@class="js-url-input"]')))
+                    time.sleep(10)
+                    print('a')
                     driver.find_element_by_xpath("//input[@class='js-url-input']").click()
+                    print('b')
                     driver.find_element_by_xpath("//input[@class='js-url-input']").send_keys(url1)
+                    print('c')
                     driver.find_element_by_xpath("//div[@class='convert-icon cursor-pointer js-convert-btn']").click()
-                    
+                    print('d')
                     time.sleep(20)
                     pic_url = driver.find_element_by_xpath(
                         "//a[@class='btn btn-large btn-primary mt-2 pt-2 js-download-btn']").get_attribute("href")
