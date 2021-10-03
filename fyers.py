@@ -136,6 +136,7 @@ while True:
                     url1 = "https://www.google.com/finance/quote/"+x3+":NSE"
                     print(url1)
                     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
+                    print('f')
                     driver.get("https://www.web2pdfconvert.com/to/img")
                     time.sleep(10)
                     print('a')
