@@ -33,9 +33,6 @@ def get_token():
                                        response_type="code",
                                        grant_type="authorization_code")
     url = session.generate_authcode()
-    options = Options()
-    # options.add_argument('headless')
-    options.add_argument('--disable-gpu')
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     driver.get(url)
     WebDriverWait(driver, 10).until(
@@ -138,9 +135,11 @@ while True:
 
                     url1 = "https://www.google.com/finance/quote/"+x3+":NSE"
                     print(url1)
-                    options = Options()
-                    #options.add_argument('headless')
-                    options.add_argument('--disable-gpu')
+                    chrome_options = webdriver.ChromeOptions()
+                    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+                    chrome_options.add_argument("--headless")
+                    chrome_options.add_argument("--disable-dev-shm-usage")
+                    chrome_options.add_argument("--no-sandbox")
                     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
                     driver.get("https://www.web2pdfconvert.com/to/img")
                     WebDriverWait(driver, 10).until(
