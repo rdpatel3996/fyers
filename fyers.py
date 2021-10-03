@@ -61,81 +61,101 @@ fyers = fyersModel.FyersModel(client_id=app_id, token=access_token)
 
 while True:
     
-    # for pnl
     @bot.message_handler(commands='pnl')
-    def get_pnl(msg):
+    def get_pnl(msg1):
         positions = fyers.positions()
         positions_data = positions['overall']['pl_total']
         print(positions_data)
         positions_data = str(positions_data)
-        bot.reply_to(msg, positions_data)
+        bot.reply_to(msg1, positions_data)
 
 
 
-     #for order placement and quote
-    @bot.message_handler(commands='bos')
-    def get_pnl(stocks):
+    def r1(stocks):
+        return "abc"
 
-        #data = {"symbols": "NSE:" + request + "-EQ"}
-        #quote = fyers.quotes(data)
-        bot.reply_to(stocks, "Please write in format\nE.g.\nSymbol(Caps lock)\nQty(+ for buy,- for sell)\nPrice\nOrder type(AMO:TRUE,Regular:FALSE)")
+    @bot.message_handler(func=r1)
+    def r2(stocks):
+        x = stocks.text
+        x1 = x.replace("/", "")
+        chat_id = stocks.chat.id
+        print(chat_id)
 
-    def input(stocks):
-        request = stocks
-        return request
 
-    @bot.message_handler(func=input)
-    def input(stocks):
-        request = stocks.text
-        request = request.replace("/", "")
         try:
-            name = request
-            list = name.splitlines()
-            print(list)
-            symbol = list[0]
-            user_qty = list[1]
-            qty = abs(int(list[1]))
-            if int(user_qty)<0:
-                side = -1
-            else:
-                side = 1
-            side = side
-            limitprice = float(list[2])
-            offlineorder = list[3]
 
-
-            data = dict(symbol="NSE:"+symbol+"-EQ", qty=qty, type=1, side=side, productType="CNC", limitPrice=limitprice,
-                    stopPrice=0, validity="DAY", disclosedQty=0, offlineOrder=offlineorder, stopLoss=0, takeProfit=0)
-            print(data)
-
-            fyers.place_order(data)
-
-        except:
-
-            data1 = {"symbols": "NSE:" + request + "-EQ"}
+            data1 = {"symbols": "NSE:" + x1 + "-EQ"}
             quote = fyers.quotes(data1)
             cmp = float
             ch = float
+            cmp = quote['d'][0]['v']['lp']
+            ch = quote['d'][0]['v']['ch']
+            chp = quote['d'][0]['v']['chp']
+            bid = quote['d'][0]['v']['bid']
+            ask = quote['d'][0]['v']['ask']
+            open = quote['d'][0]['v']['open_price']
+            previos_close = quote['d'][0]['v']['prev_close_price']
+            low = quote['d'][0]['v']['low_price']
+            high = quote['d'][0]['v']['high_price']
+            volume = quote['d'][0]['v']['volume']
+            bot.reply_to(stocks, "Cmp : " + str('{:n}'.format(cmp)) + "   " + "(" + str(
+                '{:n}'.format(ch)) + ")" + "   " + "(" + str('{:n}'.format(chp)) + "%)""\nBid : " + str(
+                '{:n}'.format(bid)) + "   Ask : " + str('{:n}'.format(ask)) + "\nHigh : " + str(
+                '{:n}'.format(high)) + "   Low : " + str('{:n}'.format(low)) + "\nOpen : " + str(
+                '{:n}'.format(open)) + "   Previos Close : " + str('{:n}'.format(previos_close)) + "\nVolume : " + str(
+                '{:n}'.format(volume)))
+
+        except:
+
             try:
-                cmp = quote['d'][0]['v']['lp']
-                ch = quote['d'][0]['v']['ch']
-                chp = quote['d'][0]['v']['chp']
-                bid = quote['d'][0]['v']['bid']
-                ask = quote['d'][0]['v']['ask']
-                open = quote['d'][0]['v']['open_price']
-                previos_close = quote['d'][0]['v']['prev_close_price']
-                low = quote['d'][0]['v']['low_price']
-                high = quote['d'][0]['v']['high_price']
-                volume = quote['d'][0]['v']['volume']
+                name = x1
+
+                list = name.splitlines()
+                symbol = list[0]
+                user_qty = list[1]
+                qty = abs(int(list[1]))
+                if int(user_qty)<0:
+                    side = -1
+                else:
+                    side = 1
+                side = side
+                limitprice = float(list[2])
+                offlineorder = list[3]
 
 
-                bot.reply_to(stocks, "Cmp : "+str('{:n}'.format(cmp))+"   "+"("+str('{:n}'.format(ch))+")"+"   "+"("+str('{:n}'.format(chp))+"%)""\nBid : "+str('{:n}'.format(bid))+"   Ask : "+str('{:n}'.format(ask))+"\nHigh : "+str('{:n}'.format(high))+"   Low : "+str('{:n}'.format(low))+"\nOpen : "+str('{:n}'.format(open))+"   Previos Close : "+str('{:n}'.format(previos_close))+"\nVolume : "+str('{:n}'.format(volume)))
+                data = dict(symbol="NSE:"+symbol+"-EQ", qty=qty, type=1, side=side, productType="CNC", limitPrice=limitprice,
+                        stopPrice=0, validity="DAY", disclosedQty=0, offlineOrder=offlineorder, stopLoss=0, takeProfit=0)
+
+                response = fyers.place_order(data)
+                order_status = response['message']
+                bot.reply_to(stocks, order_status)
+
             except:
-                bot.reply_to(stocks, "please enter valid symbol")
+
+                try:
+                    x3 = x1[1:]
+                    print(x3)
+
+                    url1 = "https://www.google.com/finance/quote/"+x3+":NSE"
+                    # options.add_argument('headless')
+                    options.add_argument('--disable-gpu')
+                    driver.get("https://www.web2pdfconvert.com/to/img")
+                    WebDriverWait(driver, 10).until(
+                        ec.visibility_of_element_located((By.XPATH, '//input[@class="js-url-input"]')))
+                    driver.find_element_by_xpath("//input[@class='js-url-input']").click()
+                    driver.find_element_by_xpath("//input[@class='js-url-input']").send_keys(url1)
+                    driver.find_element_by_xpath("//div[@class='convert-icon cursor-pointer js-convert-btn']").click()
+                    time.sleep(20)
+                    pic_url = driver.find_element_by_xpath(
+                        "//a[@class='btn btn-large btn-primary mt-2 pt-2 js-download-btn']").get_attribute("href")
+
+                    bot.send_photo(photo=pic_url, chat_id=chat_id)
+
+                except:
+
+                    bot.reply_to(stocks, "please enter in format")
 
 
 
-
-
-    bot.infinity_polling()
+    bot.polling()
     time.sleep(20)
