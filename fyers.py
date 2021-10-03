@@ -147,6 +147,7 @@ while True:
                     pic_url = driver.find_element_by_xpath(
                         "//a[@class='btn btn-large btn-primary mt-2 pt-2 js-download-btn']").get_attribute("href")
                     print(pic_url)
+                    driver.close()
 
                     bot.send_photo(photo=pic_url, chat_id=chat_id)
 
