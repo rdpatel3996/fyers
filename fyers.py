@@ -134,11 +134,15 @@ while True:
                     print(x3)
 
                     url1 = "https://www.google.com/finance/quote/"+x3+":NSE"
+                    url2 = "https://www.web2pdfconvert.com/to/img"
                     print(url1)
-                    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
+                    
+
+                    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+                    driver.get(url2)
                     print('f')
                     driver.get("https://www.web2pdfconvert.com/to/img")
-                    time.sleep(10)
+                    sleep(10)
                     print('a')
                     driver.find_element_by_xpath("//input[@class='js-url-input']").click()
                     print('b')
@@ -146,11 +150,12 @@ while True:
                     print('c')
                     driver.find_element_by_xpath("//div[@class='convert-icon cursor-pointer js-convert-btn']").click()
                     print('d')
-                    time.sleep(20)
+                    sleep(20)  
+                    driver.close()
                     pic_url = driver.find_element_by_xpath(
                         "//a[@class='btn btn-large btn-primary mt-2 pt-2 js-download-btn']").get_attribute("href")
                     print(pic_url)
-                    driver.close()
+
 
                     bot.send_photo(photo=pic_url, chat_id=chat_id)
 
@@ -161,4 +166,4 @@ while True:
 
 
     bot.polling()
-    time.sleep(20)
+    sleep(20)
