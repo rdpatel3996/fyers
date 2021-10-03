@@ -137,8 +137,8 @@ while True:
                     print(x3)
 
                     url1 = "https://www.google.com/finance/quote/"+x3+":NSE"
-                    # options.add_argument('headless')
-                    options.add_argument('--disable-gpu')
+                    print(url1)
+                    
                     driver.get("https://www.web2pdfconvert.com/to/img")
                     WebDriverWait(driver, 10).until(
                         ec.visibility_of_element_located((By.XPATH, '//input[@class="js-url-input"]')))
@@ -148,6 +148,7 @@ while True:
                     time.sleep(20)
                     pic_url = driver.find_element_by_xpath(
                         "//a[@class='btn btn-large btn-primary mt-2 pt-2 js-download-btn']").get_attribute("href")
+                    print(pic_url)
 
                     bot.send_photo(photo=pic_url, chat_id=chat_id)
 
