@@ -135,13 +135,14 @@ while True:
 
                     url1 = "https://www.google.com/finance/quote/"+x3+":NSE"
                     print(url1)
-                    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+                    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
                     driver.get("https://www.web2pdfconvert.com/to/img")
                     WebDriverWait(driver, 10).until(
                         ec.visibility_of_element_located((By.XPATH, '//input[@class="js-url-input"]')))
                     driver.find_element_by_xpath("//input[@class='js-url-input']").click()
                     driver.find_element_by_xpath("//input[@class='js-url-input']").send_keys(url1)
                     driver.find_element_by_xpath("//div[@class='convert-icon cursor-pointer js-convert-btn']").click()
+                    
                     time.sleep(20)
                     pic_url = driver.find_element_by_xpath(
                         "//a[@class='btn btn-large btn-primary mt-2 pt-2 js-download-btn']").get_attribute("href")
