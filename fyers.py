@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from fyers_api import fyersModel
 from fyers_api import accessToken
-chrome_options = webdriver.ChromeOptions()
+chrome_options = webdriver.Options()
 chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
@@ -135,12 +135,6 @@ while True:
 
                     url1 = "https://www.google.com/finance/quote/"+x3+":NSE"
                     print(url1)
-                    chrome_options = webdriver.ChromeOptions()
-                    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-                    chrome_options.add_argument("--headless")
-                    chrome_options.add_argument("--disable-dev-shm-usage")
-                    chrome_options.add_argument("--no-sandbox")
-                    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
                     driver.get("https://www.web2pdfconvert.com/to/img")
                     WebDriverWait(driver, 10).until(
                         ec.visibility_of_element_located((By.XPATH, '//input[@class="js-url-input"]')))
