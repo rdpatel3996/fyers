@@ -142,7 +142,7 @@ while True:
                     driver.get(url2)
                     print('f')
                     driver.get("https://www.web2pdfconvert.com/to/img")
-                    sleep(10)
+                    sleep(5)
                     print('a')
                     driver.find_element_by_xpath("//input[@class='js-url-input']").click()
                     print('b')
@@ -150,10 +150,11 @@ while True:
                     print('c')
                     driver.find_element_by_xpath("//div[@class='convert-icon cursor-pointer js-convert-btn']").click()
                     print('d')
-                    sleep(20)  
-                    driver.close()
+                    sleep(15)  
+                    
                     pic_url = driver.find_element_by_xpath(
                         "//a[@class='btn btn-large btn-primary mt-2 pt-2 js-download-btn']").get_attribute("href")
+                    driver.close()
                     print(pic_url)
 
 
