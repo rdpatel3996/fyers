@@ -66,7 +66,7 @@ while True:
         bot.reply_to(msg1, positions_data)
 
 
-    def r1():
+    def r1(stocks):
         return "abc"
 
 
@@ -97,8 +97,6 @@ while True:
                 '{:n}'.format(high)) + "   Low : " + str('{:n}'.format(low)) + "\nOpen : " + str(
                 '{:n}'.format(open1)) + "   Previos Close : " + str('{:n}'.format(previos_close)) + "\nVolume : " + str(
                 '{:n}'.format(volume)))
-        else:
-            bot.reply_to(stocks, "please enter symbol in valid format")
 
         if x3 == "o":
             name = x1[4:]
@@ -123,9 +121,6 @@ while True:
             order_status = response['message']
             bot.reply_to(stocks, order_status)
 
-        else:
-            bot.reply_to(stocks, "please enter order form in valid format")
-
         if x4 == "c":
             url1 = "https://www.google.com/finance/quote/" + x1[1:] + ":NSE"
             url2 = "https://www.web2pdfconvert.com/to/img"
@@ -144,8 +139,6 @@ while True:
 
             bot.send_photo(photo=pic_url, chat_id=chat_id)
 
-        else:
-            bot.reply_to(stocks, "please enter symbol in valid format")
 
 
     bot.polling()
