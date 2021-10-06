@@ -76,7 +76,6 @@ while True:
         x1 = x.replace("/", "")
         x2 = x1[:1]
         x3 = x1[:4]
-        x4 = x1[1:]
         chat_id = stocks.chat.id
         if x2 == "p":
             data1 = {"symbols": "NSE:" + x1[1:] + "-EQ"}
@@ -87,7 +86,7 @@ while True:
             bid = quote['d'][0]['v']['bid']
             ask = quote['d'][0]['v']['ask']
             open1 = quote['d'][0]['v']['open_price']
-            previos_close = quote['d'][0]['v']['prev_close_price']
+            previous_close = quote['d'][0]['v']['prev_close_price']
             low = quote['d'][0]['v']['low_price']
             high = quote['d'][0]['v']['high_price']
             volume = quote['d'][0]['v']['volume']
@@ -95,8 +94,10 @@ while True:
                 '{:n}'.format(ch)) + ")" + "   " + "(" + str('{:n}'.format(chp)) + "%)""\nBid : " + str(
                 '{:n}'.format(bid)) + "   Ask : " + str('{:n}'.format(ask)) + "\nHigh : " + str(
                 '{:n}'.format(high)) + "   Low : " + str('{:n}'.format(low)) + "\nOpen : " + str(
-                '{:n}'.format(open1)) + "   Previos Close : " + str('{:n}'.format(previos_close)) + "\nVolume : " + str(
+                '{:n}'.format(open1)) + "   Previos Close : " + str('{:n}'.format(previous_close)) + "\nVolume : " + str(
                 '{:n}'.format(volume)))
+        else:
+            bot.reply_to(stocks, "please enter symbol in valid format")
 
         if x3 == "o":
             name = x1[4:]
@@ -121,7 +122,10 @@ while True:
             order_status = response['message']
             bot.reply_to(stocks, order_status)
 
-        if x4 == "c":
+        else:
+            bot.reply_to(stocks, "please enter order form in valid format")
+
+        if x2 == "c":
             url1 = "https://www.google.com/finance/quote/" + x1[1:] + ":NSE"
             url2 = "https://www.web2pdfconvert.com/to/img"
             driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
@@ -139,6 +143,8 @@ while True:
 
             bot.send_photo(photo=pic_url, chat_id=chat_id)
 
+        else:
+            bot.reply_to(stocks, "please enter symbol in valid format")
 
 
     bot.polling()
